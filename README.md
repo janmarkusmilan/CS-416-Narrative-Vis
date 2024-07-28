@@ -4,9 +4,9 @@ This repository contains the narrative visualization project developed for the C
 
 ## Links
 
-- Deployment:
-- Repository:
-- Dataset:
+- Deployment: https://janmarkusmilan.github.io/CS-416-Narrative-Vis/
+- Repository: https://github.com/janmarkusmilan/CS-416-Narrative-Vis
+- Dataset: https://www.kaggle.com/datasets/kedokedokedo/vgsales
 
 ## Review Criteria
 
