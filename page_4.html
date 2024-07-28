@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Game Earnings by Platform</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="top-banner">
+      <h1>Video Game Earnings by Platform</h1>
+      <button onclick="location.href='index.html'">Home</button>
+    </div>
+
+    <div class="container-4">
+      <label for="earnings-filter">Choose a region:</label>
+      <select id="earnings-filter">
+        <option value="global">Global_Sales</option>
+      </select>
+      <div id="bar-graph-container-4"></div>
+      <div class="bar-text-container-4">
+        <p>
+          What observations can we make from this bar graph? (Global sales only)
+        </p>
+        <ul>
+          <li>
+            When viewing video game data strictly through the platform, we can
+            see that the crowd favorite is the Playstation 2 (PS2), with the
+            second highest video game count of 2,127 and the highest global
+            earnings with a total of $1,233,460,000.
+          </li>
+          <br />
+          <li>
+            Most consoles like the Playstation 2 (PS2), Xbox 360 (X360), and the
+            Wii have a a high video game count and total earnings. Some
+            exceptions are the WiiU with a low video game count and low total
+            earnings, as well as the Playstation 4 (PS4) and Xbox One (XOne) due
+            to the database only having games up to 2016.
+          </li>
+          <br />
+          <li>
+            Most handheld consoles also have pale in comparison to the consoles
+            regarding overall earning success, with the exception of the
+            Nintendo DS (DS) which has the highest video game count of 2,133 and
+            the fifth highest total earnings of $818,960,000, outranking the
+            Playstation (PS) but being under the Playstation 2 (PS2), Xbox 360
+            (X360), Wii and Playstation 3 (PS3).
+          </li>
+          <br />
+          <li>
+            The top three platforms based on total global earnings are the
+            Playstation 2 ($1,233,460,000), Xbox 360 ($969,610,000), and
+            Playstation 3 ($949,350,000). in that order. The top three platforms
+            based on game count are the Nintendo DS (2,133), Playstation 2
+            (2,127), and Playstation 3 (1,304) in that order.
+          </li>
+        </ul>
+        <p>*Hover over the bars for extra information*</p>
+      </div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <div class="bottom-banner">
+      <button onclick="location.href='page_3.html'">Prev</button>
+      <button onclick="location.href='end.html'">Next</button>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="scripts/page_4.js"></script>
+  </body>
+</html>

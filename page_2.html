@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Game Earnings by Year</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="top-banner">
+      <h1>Video Game Global Earnings by Year</h1>
+      <button onclick="location.href='index.html'">Home</button>
+    </div>
+
+    <div class="container-2">
+      <div id="line-graph-container-2"></div>
+      <div class="line-text-container-2">
+        <p>What observations can we make from this line graph?</p>
+        <ul>
+          <li>
+            Global video game sales remained relatively calm until 1996, where
+            sales broke through the $100M mark and even the $200M mark the
+            following year. This matches the data found in the previous graph,
+            as not only do the amount of video games increase by the decade, but
+            also the technology used for making the games.
+          </li>
+          <br />
+          <li>
+            From 1996, yearly video game global sales continue to gradually
+            increase until hitting a peak in 2008, earning a total of
+            $678,900,000 that year. Following that, the yearly global earnings
+            start to decline, hitting a bottom in 2016 with only $70,930,000
+            earned (partly due to the fact that the dataset isn't too populated
+            with games from 2016 and beyond).
+          </li>
+          <br />
+          <li>
+            This data matches the findings in the previous slide, with total
+            earnings staying relatively calm in the 1980s, slowly ramping up in
+            the 1990s, hitting a peak in the 2000s, and slowly declining in the
+            2010s.
+          </li>
+        </ul>
+        <p>*Hover over the dots for extra information*</p>
+      </div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <div class="bottom-banner">
+      <button onclick="location.href='page_1.html'">Prev</button>
+      <button onclick="location.href='page_3.html'">Next</button>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="scripts/page_2.js"></script>
+  </body>
+</html>

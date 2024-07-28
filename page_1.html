@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Count of Video Games by Decade</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="top-banner">
+      <h1>Count of Video Games by Decade</h1>
+      <button onclick="location.href='index.html'">Home</button>
+    </div>
+
+    <div class="container-1">
+      <div id="line-graph-container-1"></div>
+      <div class="line-text-container-1">
+        <p>What observations can we make from this line graph?</p>
+        <ul>
+          <li>
+            As the decades move on, the number of video games produced also
+            increases. The sudden dip in the 2010s decade has to do with the
+            fact that the dataset used only contains video games up to 2016. The
+            real value for the decade should be near or above the 2000s decade.
+          </li>
+          <br />
+          <li>
+            Interestingly enough, the average global earnings seem to be
+            decreasing by decade. This could be because not all video games
+            perform well, especially considering the increasing amount of video
+            games produced per decade.
+          </li>
+          <br />
+          <li>
+            Keep in mind that the dataset used is not completely all-inclusive.
+            The dataset does not include the mobile platform, and a majority of
+            the video games listed follow a buy-to-play business model. Some
+            highest-grossing video games like Dungeon Fighter Online (2005) are
+            not included as it is free-to-play.
+          </li>
+        </ul>
+        <p>*Hover over the dots for extra information*</p>
+      </div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <div class="bottom-banner">
+      <button onclick="location.href='index.html'">Prev</button>
+      <button onclick="location.href='page_2.html'">Next</button>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="scripts/page_1.js"></script>
+  </body>
+</html>

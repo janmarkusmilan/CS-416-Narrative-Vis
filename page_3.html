@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Video Game Earnings by Genre</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <div class="top-banner">
+      <h1>Video Game Earnings by Genre</h1>
+      <button onclick="location.href='index.html'">Home</button>
+    </div>
+
+    <div class="container-3">
+      <label for="earnings-filter">Choose a region:</label>
+      <select id="earnings-filter">
+        <option value="global">Global_Sales</option>
+      </select>
+      <div id="bar-graph-container-3"></div>
+      <div class="bar-text-container-3">
+        <p>
+          What observations can we make from this bar graph? (Global sales only)
+        </p>
+        <ul>
+          <li>
+            When viewing video game data strictly through genre, we can see that
+            the crowd favorite is the Action genre, with the highest video game
+            count of 3,252 and the highest global earnings with a total of
+            $1,722,870,000.
+          </li>
+          <br />
+          <li>
+            Most of the bars follow a relation where a high game count results
+            in high total global earnings, and vice versa. One of the outliers
+            is the Adventure genre with a high game count of 1,276 and a low
+            total global earning of $234,800,000, one of the lowest total global
+            earnings on this chart. Another would be the Misc genre with a high
+            game count of 1,710 and a relatively low global earning of
+            $797,620,000.
+          </li>
+          <br />
+          <li>
+            The top three genres based on total global earnings are Action
+            ($1.7B), Sports ($1.3B), and Shooter ($1B) in that order. The lowest
+            three genres are Strategy ($173M), Adventure ($234M), and Puzzle
+            ($242M) in that order.
+          </li>
+          <br />
+          <li>
+            The top three genres based on game count are Action (3,252), Sports
+            (2,304), and Misc (1,710) in that order. The lowest three genres are
+            Puzzle (571), Strategy (671), and Fighting (836) in that order.
+          </li>
+        </ul>
+        <p>*Hover over the bars for extra information*</p>
+      </div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <div class="bottom-banner">
+      <button onclick="location.href='page_2.html'">Prev</button>
+      <button onclick="location.href='page_4.html'">Next</button>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="scripts/page_3.js"></script>
+  </body>
+</html>
