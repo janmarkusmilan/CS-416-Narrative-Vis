@@ -8,7 +8,6 @@ const colorMap = {
 d3.csv("vgsales.csv").then(function (data) {
   data.forEach(function (d) {
     d.Global_Sales = +d.Global_Sales * 1000000; // Data in millions
-    d.Year = +d.Year;
   });
 
   data.forEach(function (d) {
@@ -22,7 +21,7 @@ d3.csv("vgsales.csv").then(function (data) {
     (v) => v.length,
     (d) => d.Decade
   );
-  const dataArray = Array.from(gameCountByDecade, ([decade, count]) => ({
+  const newData = Array.from(gameCountByDecade, ([decade, count]) => ({
     decade,
     count,
   }));
@@ -31,21 +30,19 @@ d3.csv("vgsales.csv").then(function (data) {
   const width = 600 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  const tooltip = d3.select(".tooltip");
-
   const xScale = d3
     .scaleBand()
-    .domain(dataArray.map((d) => d.decade))
+    .domain(newData.map((d) => d.decade))
     .range([0, width])
     .padding(1);
 
   const yScale = d3
     .scaleLinear()
-    .domain([0, d3.max(dataArray, (d) => d.count)])
+    .domain([0, d3.max(newData, (d) => d.count)])
     .range([height, 0]);
 
   const svg = d3
-    .select("#line-graph-container-1")
+    .select(".line-graph-1")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -58,39 +55,43 @@ d3.csv("vgsales.csv").then(function (data) {
     .y((d) => yScale(d.count))
     .curve(d3.curveMonotoneX);
 
+  const tooltip = d3.select(".tooltip");
+
   svg
     .append("path")
-    .data([dataArray])
-    .attr("class", "line")
+    .data([newData])
     .attr("d", line)
-    .attr("fill", "none")
+    .attr("class", "line")
     .attr("stroke", "black")
     .attr("stroke-width", 2);
 
   svg
     .selectAll(".dot")
-    .data(dataArray)
+    .data(newData)
     .enter()
     .append("circle")
     .attr("class", "dot")
     .attr("cx", (d) => xScale(d.decade))
     .attr("cy", (d) => yScale(d.count))
     .attr("r", 5)
-    .attr("fill", (d) => colorMap[d.decade] || "#000000")
+    .attr("fill", (d) => colorMap[d.decade] || "black")
     .on("mouseover", function (event, d) {
       const decadeData = data.filter((cols) => cols.Decade === d.decade);
-      const avgGlobalSales = d3.mean(decadeData, (cols) => cols.Global_Sales);
+      const averagegGlobalSales = d3.mean(
+        decadeData,
+        (cols) => cols.Global_Sales
+      );
 
       tooltip
         .style("display", "block")
         .html(
           `
           Count of Video Games: ${decadeData.length}<br>
-          Average Global Earnings: $${avgGlobalSales.toLocaleString()}
+          Average Global Earnings: $${averagegGlobalSales.toLocaleString()}
           `
         )
         .style("left", event.pageX + 15 + "px")
-        .style("top", event.pageY - 40 + "px");
+        .style("top", event.pageY - 35 + "px");
     })
     .on("mouseout", function () {
       tooltip.style("display", "none");
@@ -98,14 +99,13 @@ d3.csv("vgsales.csv").then(function (data) {
 
   svg
     .append("g")
-    .attr("transform", "translate(0," + height + ")")
+    .attr("transform", "translate(0, " + height + ")")
     .call(d3.axisBottom(xScale).tickFormat((d) => `${d}s`));
 
   svg.append("g").call(d3.axisLeft(yScale).tickFormat((d) => d));
 
   svg
     .append("text")
-    .attr("class", "axis-label")
     .attr("x", width / 2)
     .attr("y", height + 40)
     .attr("text-anchor", "middle")
@@ -114,7 +114,6 @@ d3.csv("vgsales.csv").then(function (data) {
 
   svg
     .append("text")
-    .attr("class", "axis-label")
     .attr("transform", "rotate(-90)")
     .attr("x", -height / 2)
     .attr("y", -60)

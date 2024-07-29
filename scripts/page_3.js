@@ -48,36 +48,33 @@ d3.csv("vgsales.csv").then(function (data) {
     (d) => d.Genre
   );
 
-  const dataArrayGlobal = Array.from(
+  const newDataGlobal = Array.from(
     gameSalesByGenreGlobal,
     ([genre, sales]) => ({
       genre,
       sales,
     })
   );
-  const dataArrayNA = Array.from(gameSalesByGenreNA, ([genre, sales]) => ({
+  const newDataNA = Array.from(gameSalesByGenreNA, ([genre, sales]) => ({
     genre,
     sales,
   }));
-  const dataArrayEU = Array.from(gameSalesByGenreEU, ([genre, sales]) => ({
+  const newDataEU = Array.from(gameSalesByGenreEU, ([genre, sales]) => ({
     genre,
     sales,
   }));
-  const dataArrayJP = Array.from(gameSalesByGenreJP, ([genre, sales]) => ({
+  const newDataJP = Array.from(gameSalesByGenreJP, ([genre, sales]) => ({
     genre,
     sales,
   }));
-  const dataArrayOther = Array.from(
-    gameSalesByGenreOther,
-    ([genre, sales]) => ({
-      genre,
-      sales,
-    })
-  );
+  const newDataOther = Array.from(gameSalesByGenreOther, ([genre, sales]) => ({
+    genre,
+    sales,
+  }));
 
   const sales_title = ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"];
 
-  const select = d3.select("#earnings-filter");
+  const select = d3.select(".earnings-filter");
   sales_title.forEach((title) => {
     select.append("option").text(`${title}`).attr("value", title);
   });
@@ -87,28 +84,28 @@ d3.csv("vgsales.csv").then(function (data) {
   const height = 400 - margin.top - margin.bottom;
 
   const tooltip = d3.select(".tooltip");
-  let dataArray = [];
+  let newData = [];
 
-  function updatePlot(selectedRegion) {
-    if (selectedRegion === "NA_Sales") dataArray = dataArrayNA;
-    else if (selectedRegion === "EU_Sales") dataArray = dataArrayEU;
-    else if (selectedRegion === "JP_Sales") dataArray = dataArrayJP;
-    else if (selectedRegion === "Other_Sales") dataArray = dataArrayOther;
-    else dataArray = dataArrayGlobal;
+  function updateGraph(selectedRegion) {
+    if (selectedRegion === "NA_Sales") newData = newDataNA;
+    else if (selectedRegion === "EU_Sales") newData = newDataEU;
+    else if (selectedRegion === "JP_Sales") newData = newDataJP;
+    else if (selectedRegion === "Other_Sales") newData = newDataOther;
+    else newData = newDataGlobal;
 
     const xScale = d3
       .scaleBand()
-      .domain(dataArray.map((d) => d.genre))
+      .domain(newData.map((d) => d.genre))
       .range([0, width])
       .padding(0.2);
 
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(dataArray, (d) => d.sales)])
+      .domain([0, d3.max(newData, (d) => d.sales)])
       .range([height, 0]);
 
     const svg = d3
-      .select("#bar-graph-container-3")
+      .select(".bar-graph-3")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -117,15 +114,15 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .selectAll(".bar")
-      .data(dataArray)
+      .data(newData)
       .enter()
       .append("rect")
       .attr("class", "bar")
       .attr("x", (d) => xScale(d.genre))
-      .attr("width", xScale.bandwidth())
       .attr("y", (d) => yScale(d.sales))
+      .attr("width", xScale.bandwidth())
       .attr("height", (d) => height - yScale(d.sales))
-      .attr("fill", (d) => colorMap[d.genre] || "#000000")
+      .attr("fill", (d) => colorMap[d.genre] || "black")
       .on("mouseover", function (event, d) {
         const genreData = data.filter((cols) => cols.Genre === d.genre);
 
@@ -210,7 +207,7 @@ d3.csv("vgsales.csv").then(function (data) {
             `
           )
           .style("left", event.pageX + 15 + "px")
-          .style("top", event.pageY - 40 + "px");
+          .style("top", event.pageY - 35 + "px");
       })
       .on("mouseout", function () {
         tooltip.style("display", "none");
@@ -218,7 +215,7 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .append("g")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0, " + height + ")")
       .call(d3.axisBottom(xScale).tickFormat((d) => d));
 
     svg
@@ -227,7 +224,6 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .append("text")
-      .attr("class", "axis-label")
       .attr("x", width / 2)
       .attr("y", height + 40)
       .attr("text-anchor", "middle")
@@ -236,7 +232,6 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .append("text")
-      .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
       .attr("x", -height / 2)
       .attr("y", -60)
@@ -245,11 +240,11 @@ d3.csv("vgsales.csv").then(function (data) {
       .style("font-size", "13px");
   }
 
-  updatePlot("global");
+  updateGraph("global");
 
-  d3.select("#earnings-filter").on("change", function () {
+  d3.select(".earnings-filter").on("change", function () {
     const selectedRegion = d3.select(this).property("value");
     d3.select("svg").remove();
-    updatePlot(selectedRegion);
+    updateGraph(selectedRegion);
   });
 });

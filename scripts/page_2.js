@@ -41,7 +41,6 @@ const colorMap = {
 d3.csv("vgsales.csv").then(function (data) {
   data.forEach(function (d) {
     d.Global_Sales = +d.Global_Sales * 1000000; // Data in millions
-    d.Year = +d.Year;
   });
 
   const gameSalesByYear = d3.rollup(
@@ -49,7 +48,7 @@ d3.csv("vgsales.csv").then(function (data) {
     (v) => d3.sum(v, (d) => d.Global_Sales),
     (d) => d.Year
   );
-  const dataArray = Array.from(gameSalesByYear, ([year, sales]) => ({
+  const newData = Array.from(gameSalesByYear, ([year, sales]) => ({
     year,
     sales,
   }));
@@ -58,21 +57,19 @@ d3.csv("vgsales.csv").then(function (data) {
   const width = 1000 - margin.left - margin.right;
   const height = 400 - margin.top - margin.bottom;
 
-  const tooltip = d3.select(".tooltip");
-
   const xScale = d3
     .scaleBand()
-    .domain(dataArray.map((d) => d.year))
+    .domain(newData.map((d) => d.year))
     .range([0, width])
     .padding(1);
 
   const yScale = d3
     .scaleLinear()
-    .domain([0, d3.max(dataArray, (d) => d.sales)])
+    .domain([0, d3.max(newData, (d) => d.sales)])
     .range([height, 0]);
 
   const svg = d3
-    .select("#line-graph-container-2")
+    .select(".line-graph-2")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -85,25 +82,26 @@ d3.csv("vgsales.csv").then(function (data) {
     .y((d) => yScale(d.sales))
     .curve(d3.curveMonotoneX);
 
+  const tooltip = d3.select(".tooltip");
+
   svg
     .append("path")
-    .data([dataArray])
+    .data([newData])
     .attr("class", "line")
     .attr("d", line)
-    .attr("fill", "none")
     .attr("stroke", "black")
     .attr("stroke-width", 2);
 
   svg
     .selectAll(".dot")
-    .data(dataArray)
+    .data(newData)
     .enter()
     .append("circle")
     .attr("class", "dot")
     .attr("cx", (d) => xScale(d.year))
     .attr("cy", (d) => yScale(d.sales))
     .attr("r", 5)
-    .attr("fill", (d) => colorMap[d.year] || "#000000")
+    .attr("fill", (d) => colorMap[d.year] || "black")
     .on("mouseover", function (event, d) {
       const yearlyData = data.filter((cols) => cols.Year === d.year);
       const totalGlobalSales = d3.sum(yearlyData, (cols) => cols.Global_Sales);
@@ -127,7 +125,7 @@ d3.csv("vgsales.csv").then(function (data) {
           `
         )
         .style("left", event.pageX + 15 + "px")
-        .style("top", event.pageY - 40 + "px");
+        .style("top", event.pageY - 35 + "px");
     })
     .on("mouseout", function () {
       tooltip.style("display", "none");
@@ -135,7 +133,7 @@ d3.csv("vgsales.csv").then(function (data) {
 
   svg
     .append("g")
-    .attr("transform", "translate(0," + height + ")")
+    .attr("transform", "translate(0, " + height + ")")
     .call(d3.axisBottom(xScale).tickFormat((d) => d));
 
   svg
@@ -144,7 +142,6 @@ d3.csv("vgsales.csv").then(function (data) {
 
   svg
     .append("text")
-    .attr("class", "axis-label")
     .attr("x", width / 2)
     .attr("y", height + 40)
     .attr("text-anchor", "middle")
@@ -153,7 +150,6 @@ d3.csv("vgsales.csv").then(function (data) {
 
   svg
     .append("text")
-    .attr("class", "axis-label")
     .attr("transform", "rotate(-90)")
     .attr("x", -height / 2)
     .attr("y", -60)

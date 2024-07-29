@@ -67,35 +67,26 @@ d3.csv("vgsales.csv").then(function (data) {
     (d) => d.Platform
   );
 
-  const dataArrayGlobal = Array.from(
+  const newDataGlobal = Array.from(
     gameSalesByPlatformGlobal,
     ([platform, sales]) => ({
       platform,
       sales,
     })
   );
-  const dataArrayNA = Array.from(
-    gameSalesByPlatformNA,
-    ([platform, sales]) => ({
-      platform,
-      sales,
-    })
-  );
-  const dataArrayEU = Array.from(
-    gameSalesByPlatformEU,
-    ([platform, sales]) => ({
-      platform,
-      sales,
-    })
-  );
-  const dataArrayJP = Array.from(
-    gameSalesByPlatformJP,
-    ([platform, sales]) => ({
-      platform,
-      sales,
-    })
-  );
-  const dataArrayOther = Array.from(
+  const newDataNA = Array.from(gameSalesByPlatformNA, ([platform, sales]) => ({
+    platform,
+    sales,
+  }));
+  const newDataEU = Array.from(gameSalesByPlatformEU, ([platform, sales]) => ({
+    platform,
+    sales,
+  }));
+  const newDataJP = Array.from(gameSalesByPlatformJP, ([platform, sales]) => ({
+    platform,
+    sales,
+  }));
+  const newDataOther = Array.from(
     gameSalesByPlatformOther,
     ([platform, sales]) => ({
       platform,
@@ -105,7 +96,7 @@ d3.csv("vgsales.csv").then(function (data) {
 
   const sales_title = ["NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales"];
 
-  const select = d3.select("#earnings-filter");
+  const select = d3.select(".earnings-filter");
   sales_title.forEach((title) => {
     select.append("option").text(`${title}`).attr("value", title);
   });
@@ -115,28 +106,28 @@ d3.csv("vgsales.csv").then(function (data) {
   const height = 400 - margin.top - margin.bottom;
 
   const tooltip = d3.select(".tooltip");
-  let dataArray = [];
+  let newData = [];
 
-  function updatePlot(selectedRegion) {
-    if (selectedRegion === "NA_Sales") dataArray = dataArrayNA;
-    else if (selectedRegion === "EU_Sales") dataArray = dataArrayEU;
-    else if (selectedRegion === "JP_Sales") dataArray = dataArrayJP;
-    else if (selectedRegion === "Other_Sales") dataArray = dataArrayOther;
-    else dataArray = dataArrayGlobal;
+  function updateGraph(selectedRegion) {
+    if (selectedRegion === "NA_Sales") newData = newDataNA;
+    else if (selectedRegion === "EU_Sales") newData = newDataEU;
+    else if (selectedRegion === "JP_Sales") newData = newDataJP;
+    else if (selectedRegion === "Other_Sales") newData = newDataOther;
+    else newData = newDataGlobal;
 
     const xScale = d3
       .scaleBand()
-      .domain(dataArray.map((d) => d.platform))
+      .domain(newData.map((d) => d.platform))
       .range([0, width])
       .padding(0.2);
 
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(dataArray, (d) => d.sales)])
+      .domain([0, d3.max(newData, (d) => d.sales)])
       .range([height, 0]);
 
     const svg = d3
-      .select("#bar-graph-container-4")
+      .select(".bar-graph-4")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -145,15 +136,15 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .selectAll(".bar")
-      .data(dataArray)
+      .data(newData)
       .enter()
       .append("rect")
       .attr("class", "bar")
       .attr("x", (d) => xScale(d.platform))
-      .attr("width", xScale.bandwidth())
       .attr("y", (d) => yScale(d.sales))
+      .attr("width", xScale.bandwidth())
       .attr("height", (d) => height - yScale(d.sales))
-      .attr("fill", (d) => colorMap[d.platform] || "#000000")
+      .attr("fill", (d) => colorMap[d.platform] || "black")
       .on("mouseover", function (event, d) {
         const platformData = data.filter(
           (cols) => cols.Platform === d.platform
@@ -254,7 +245,7 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .append("g")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0, " + height + ")")
       .call(d3.axisBottom(xScale).tickFormat((d) => d));
 
     svg
@@ -263,7 +254,6 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .append("text")
-      .attr("class", "axis-label")
       .attr("x", width / 2)
       .attr("y", height + 40)
       .attr("text-anchor", "middle")
@@ -272,7 +262,6 @@ d3.csv("vgsales.csv").then(function (data) {
 
     svg
       .append("text")
-      .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")
       .attr("x", -height / 2)
       .attr("y", -60)
@@ -281,11 +270,11 @@ d3.csv("vgsales.csv").then(function (data) {
       .style("font-size", "13px");
   }
 
-  updatePlot("global");
+  updateGraph("global");
 
-  d3.select("#earnings-filter").on("change", function () {
+  d3.select(".earnings-filter").on("change", function () {
     const selectedRegion = d3.select(this).property("value");
     d3.select("svg").remove();
-    updatePlot(selectedRegion);
+    updateGraph(selectedRegion);
   });
 });
