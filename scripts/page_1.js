@@ -77,7 +77,7 @@ d3.csv("vgsales.csv").then(function (data) {
     .attr("fill", (d) => colorMap[d.decade] || "black")
     .on("mouseover", function (event, d) {
       const decadeData = data.filter((cols) => cols.Decade === d.decade);
-      const averagegGlobalSales = d3.mean(
+      const averageGlobalSales = d3.mean(
         decadeData,
         (cols) => cols.Global_Sales
       );
@@ -87,7 +87,7 @@ d3.csv("vgsales.csv").then(function (data) {
         .html(
           `
           Count of Video Games: ${decadeData.length}<br>
-          Average Global Earnings: $${averagegGlobalSales.toLocaleString()}
+          Average Global Earnings: $${averageGlobalSales.toLocaleString()}
           `
         )
         .style("left", event.pageX + 15 + "px")
