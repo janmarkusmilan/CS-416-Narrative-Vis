@@ -56,11 +56,6 @@ button:hover {
 }
 
 /* Line Graphs */
-.line {
-  fill: none;
-  stroke-width: 2px;
-}
-
 .dot {
   cursor: pointer;
 }

@@ -87,10 +87,10 @@ d3.csv("vgsales.csv").then(function (data) {
   svg
     .append("path")
     .data([newData])
-    .attr("class", "line")
     .attr("d", line)
+    .attr("fill", "none")
     .attr("stroke", "black")
-    .attr("stroke-width", 2);
+    .attr("stroke-width", 1.5);
 
   svg
     .selectAll(".dot")
@@ -100,7 +100,7 @@ d3.csv("vgsales.csv").then(function (data) {
     .attr("class", "dot")
     .attr("cx", (d) => xScale(d.year))
     .attr("cy", (d) => yScale(d.sales))
-    .attr("r", 5)
+    .attr("r", 4)
     .attr("fill", (d) => colorMap[d.year] || "black")
     .on("mouseover", function (event, d) {
       const yearlyData = data.filter((cols) => cols.Year === d.year);
